@@ -40,18 +40,18 @@ func fromNotification(n notification.Notification) dto.NotificationDTO {
 
 func (nS *NotificationStorage) CreateNotification(notification *notification.Notification) (*notification.Notification, error) {
 
-	log.Printf("[Repository] Create notification repository starting")
+	log.Printf("[Repository Notification] Create notification repository starting")
 
 	nDTO := fromNotification(*notification)
 	nDTO.CreatedAt = time.Now()
 	result, err := nS.collection.InsertOne(nS.ctx, nDTO)
 	if err != nil {
-		log.Printf("[Repository] Create notification error: %v", err)
+		log.Printf("[Repository Notification] Create notification error: %v", err)
 		return nil, err
 	}
 	notification.ID = result.InsertedID.(primitive.ObjectID).Hex()
 
-	log.Printf("[Repository] Create notification succeeded")
+	log.Printf("[Repository Notification] Create notification succeeded")
 
 	return notification, nil
 }

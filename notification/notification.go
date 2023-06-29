@@ -32,8 +32,11 @@ type NotificationRepository interface {
 type ScheduledNotificationRepository interface {
 	CreateScheduledNotification(n *ScheduledNotification) (*ScheduledNotification, error)
 	ListScheduledNotifications(status string) ([]*ScheduledNotification, error)
+	UpdateStatusByID(ctx context.Context, ID string, status Status) error
 }
 
 type UseCase interface {
-	SendNoticiation(ctx context.Context, notification Notification, dateScheduling string) error
+	SendNoticiation(ctx context.Context, notification Notification) error
+	ManageNotification(ctx context.Context, notification Notification, dateScheduling string) error
+	CreateScheduledNotification(notification Notification, dateScheduling string) (*ScheduledNotification, error)
 }
