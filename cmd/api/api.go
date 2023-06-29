@@ -3,6 +3,7 @@ package api
 import (
 	"context"
 	"fmt"
+	"log"
 	"net/http"
 	"os"
 	"os/signal"
@@ -32,18 +33,18 @@ func Start(port string, handler http.Handler, options ...ServerOption) error {
 	signal.Notify(sigChannel, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT)
 
 	go func() {
-		fmt.Println(fmt.Sprintf("Service listening on port %s", port))
+		log.Println(fmt.Sprintf("Service listening on port %s", port))
 		if err := srv.ListenAndServe(); err != http.ErrServerClosed {
-			fmt.Println("HTTP server error: %v", err)
+			log.Println("HTTP server error: %v", err)
 			serverErr = err
 			sigChannel <- syscall.SIGINT
 		}
-		fmt.Println("Stopped serving new connections")
+		log.Println("Stopped serving new connections")
 	}()
 
 	<-sigChannel
 
-	fmt.Println("Stopping server")
+	log.Println("Stopping server")
 
 	shutdownCtx, shutdownRelease := context.WithTimeout(context.Background(), TIMEOUT)
 	defer shutdownRelease()
@@ -53,7 +54,7 @@ func Start(port string, handler http.Handler, options ...ServerOption) error {
 		panic(err)
 	}
 
-	fmt.Println("Graceful shutdown complete")
+	log.Println("Graceful shutdown complete")
 
 	return serverErr
 }

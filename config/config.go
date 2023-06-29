@@ -11,11 +11,13 @@ var (
 )
 
 type Environments struct {
-	APIPort     string `mapstructure:"API_PORT"`
-	Environment string `mapstructure:"ENVIRONMENT"`
-	AwsRegion   string `mapstructure:"AWS_REGION"`
-	AwsBaseUrl  string `mapstructure:"AWS_BASE_URL"`
-	AwsSnsArn   string `mapstructure:"AWS_SNS_ARN"`
+	APIPort      string `mapstructure:"API_PORT"`
+	Environment  string `mapstructure:"ENVIRONMENT"`
+	AwsRegion    string `mapstructure:"AWS_REGION"`
+	AwsBaseUrl   string `mapstructure:"AWS_BASE_URL"`
+	AwsSnsArn    string `mapstructure:"AWS_SNS_ARN"`
+	MongoAddress string `mapstructure:"MONGO_ADDRESS"`
+	DbName       string `mapstructure:"DB_NAME"`
 }
 
 func LoadEnvVars() *Environments {
@@ -25,6 +27,8 @@ func LoadEnvVars() *Environments {
 	viper.SetDefault("AWS_REGION", "")
 	viper.SetDefault("AWS_BASE_URL", "")
 	viper.SetDefault("AWS_SNS_ARN", "")
+	viper.SetDefault("MONGO_ADDRESS", "")
+	viper.SetDefault("DB_NAME", "")
 
 	viper.AutomaticEnv()
 

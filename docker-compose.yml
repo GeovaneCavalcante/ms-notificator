@@ -15,3 +15,18 @@ services:
     volumes:
       - "${LOCALSTACK_VOLUME_DIR:-./volume}:/var/lib/localstack"
       - "/var/run/docker.sock:/var/run/docker.sock"
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb-notificator
+    environment:
+      - MONGO_DATA_DIR=/data/db
+    volumes:
+      - mongodb_notificator_data:/data/db
+    ports:
+      - 27053:27017
+
+
+volumes:
+  mongodb_notificator_data:
+    external: false

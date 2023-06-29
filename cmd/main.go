@@ -8,7 +8,9 @@ import (
 	"github.com/GeovaneCavalcante/ms-notificator/config"
 	"github.com/GeovaneCavalcante/ms-notificator/internal/http/gin"
 	"github.com/GeovaneCavalcante/ms-notificator/internal/messenger/sns"
+	"github.com/GeovaneCavalcante/ms-notificator/internal/mongo"
 	"github.com/GeovaneCavalcante/ms-notificator/notification"
+	notificationRepo "github.com/GeovaneCavalcante/ms-notificator/notification/mongo"
 
 	"github.com/spf13/cobra"
 )
@@ -22,7 +24,14 @@ func apiCommand() *cobra.Command {
 			envs := config.LoadEnvVars()
 			snsArn := envs.AwsSnsArn
 			snsBroker := sns.New(snsArn)
-			notificationService := notification.NewService(ctx, snsBroker)
+			dbConn, _ := mongo.Open(envs.MongoAddress)
+
+			db := dbConn.Database(envs.DbName)
+
+			notificationRepository := notificationRepo.NewNotificationStorage(db, ctx)
+			scheduledNotificationRepository := notificationRepo.NewScheduledNotificationStorage(db, ctx)
+
+			notificationService := notification.NewService(ctx, snsBroker, notificationRepository, scheduledNotificationRepository)
 
 			h := gin.Handlers(envs, notificationService)
 			err := api.Start(envs.APIPort, h)

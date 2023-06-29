@@ -5,13 +5,14 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/GeovaneCavalcante/ms-notificator/internal/http/presenter"
 	"github.com/GeovaneCavalcante/ms-notificator/notification"
 	"github.com/gin-gonic/gin"
 )
 
 type NotificationData struct {
-	RawMessage string `json:"rawMessage"`
+	RawMessage     string `json:"rawMessage"`
+	DateScheduling string `json:"dateScheduling"`
+	UserID         string `json:"userId"`
 }
 
 func ListNotification(s notification.UseCase) gin.HandlerFunc {
@@ -25,20 +26,25 @@ func ListNotification(s notification.UseCase) gin.HandlerFunc {
 			return
 		}
 
-		notification, err := s.SendNoticiation(c, notificationData.RawMessage)
+		log.Printf("[Handler Notification] Event Notification payload: %v", notificationData)
+
+		n := notification.Notification{
+			RawMessage: notificationData.RawMessage,
+			UserID:     notificationData.UserID,
+		}
+
+		dateScheduling := notificationData.DateScheduling
+
+		err := s.SendNoticiation(c, n, dateScheduling)
 		if err != nil {
 			log.Printf("[Handler] Error during notification service: %v", err)
 			c.String(http.StatusInternalServerError, fmt.Sprintf("Notification service error: %v", err))
 			return
 		}
 
-		notificationResponse := &presenter.NotificationPresenter{}
-
-		notificationResponse = notificationResponse.Parse(notification)
-
 		log.Printf("[Handler Notification] Successfully sent notification")
 
-		c.JSON(http.StatusOK, notificationResponse)
+		c.Status(http.StatusOK)
 	}
 }
 

@@ -4,3 +4,9 @@ run-api:
 
 up-localstack:
 	docker-compose up -d localstack
+
+dependencies:
+	go mod download
+
+up-mongo:
+	docker-compose up -d mongodb
