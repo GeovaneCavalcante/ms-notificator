@@ -2,6 +2,9 @@
 run-api:
 	go run -race ./cmd/main.go api
 
+run-worker:
+	go run -race ./cmd/main.go worker
+
 up-localstack:
 	docker-compose up -d localstack
 

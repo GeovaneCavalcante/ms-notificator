@@ -19,6 +19,7 @@ type ScheduledNotificationDTO struct {
 	ID             primitive.ObjectID        `bson:"_id,omitempty"`
 	Notification   notification.Notification `bson:"notification"`
 	DateScheduling time.Time                 `bson:"dateScheduling"`
+	Status         notification.Status       `bson:"status"`
 	CreatedAt      time.Time                 `bson:"createdAt"`
 	UpdatedAt      primitive.Timestamp       `bson:"updatedAt"`
 }

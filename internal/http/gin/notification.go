@@ -35,7 +35,7 @@ func ListNotification(s notification.UseCase) gin.HandlerFunc {
 
 		dateScheduling := notificationData.DateScheduling
 
-		err := s.SendNoticiation(c, n, dateScheduling)
+		err := s.ManageNotification(c, n, dateScheduling)
 		if err != nil {
 			log.Printf("[Handler] Error during notification service: %v", err)
 			c.String(http.StatusInternalServerError, fmt.Sprintf("Notification service error: %v", err))
