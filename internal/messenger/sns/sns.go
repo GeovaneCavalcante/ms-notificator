@@ -32,11 +32,14 @@ func New(snsArn string) *Sns {
 		awsEndpoint := envs.AwsBaseUrl
 		cfg.Endpoint = aws.String(awsEndpoint)
 		cfg.WithCredentials(credentials.AnonymousCredentials)
+		log.Printf("Local environment detected. AWS Endpoint: %s", awsEndpoint)
 	}
 
 	sess := session.Must(session.NewSession(&cfg))
 
 	svc := sns.New(sess)
+
+	log.Printf("[Broker SNS] Successfully created SNS service")
 
 	return &Sns{
 		SnsConnection: svc,
@@ -44,11 +47,11 @@ func New(snsArn string) *Sns {
 	}
 }
 
-func (s *Sns) PublishMessage(message map[string]interface{}) (*messenger.MessageResponse, error) {
+func (s *Sns) PublishMessage(message string) (*messenger.MessageResponse, error) {
 
 	msgRaw, err := json.Marshal(message)
 	if err != nil {
-		log.Println(err)
+		log.Printf("[Broker SNS] Failed to marshal message: %v", err)
 		return nil, fmt.Errorf("failed to marshal message: %v", err)
 	}
 
@@ -58,8 +61,11 @@ func (s *Sns) PublishMessage(message map[string]interface{}) (*messenger.Message
 	})
 
 	if err != nil {
+		log.Printf("[Broker SNS] Failed to publish message: %v", err)
 		return nil, fmt.Errorf("failed to publish message: %v", err)
 	}
+
+	log.Printf("[Broker SNS] Successfully published message, MessageID: %s", *msgOutput.MessageId)
 
 	response := messenger.MessageResponse{
 		ID: *msgOutput.MessageId,

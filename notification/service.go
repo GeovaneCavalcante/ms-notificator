@@ -19,13 +19,15 @@ func NewService(ctx context.Context, messenger messenger.Messenger) *Service {
 	}
 }
 
-func (s *Service) SendNoticiation(ctx context.Context, message map[string]interface{}) (*messenger.MessageResponse, error) {
+func (s *Service) SendNoticiation(ctx context.Context, message string) (*messenger.MessageResponse, error) {
 	msg, err := s.messenger.PublishMessage(message)
 
 	if err != nil {
-		log.Printf("Failed to send notification: %v", err)
+		log.Printf("[Service Notification] Failed to send notification: %v", err)
 		return nil, err
 	}
+
+	log.Printf("[Service Notification] Notification sent successfully: %s", msg.ID)
 
 	return msg, nil
 }

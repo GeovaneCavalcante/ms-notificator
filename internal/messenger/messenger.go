@@ -10,5 +10,5 @@ type MessageResponse struct {
 }
 
 type Messenger interface {
-	PublishMessage(message map[string]interface{}) (*MessageResponse, error)
+	PublishMessage(message string) (*MessageResponse, error)
 }

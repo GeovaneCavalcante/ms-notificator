@@ -7,5 +7,5 @@ import (
 )
 
 type UseCase interface {
-	SendNoticiation(ctx context.Context, message map[string]interface{}) (*messenger.MessageResponse, error)
+	SendNoticiation(ctx context.Context, message string) (*messenger.MessageResponse, error)
 }
