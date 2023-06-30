@@ -13,14 +13,14 @@ run-worker:
 
 configure-sns:
 	docker exec localstack_main sh -c "awslocal sns create-topic --name notifications"
-	docker exec localstack_main sh -c "awslocal sns subscribe --topic-arn arn:aws:sns:us-east-1:000000000000:notifications --protocol http --notification-endpoint http://172.20.0.10:8083"
+	docker exec localstack_main sh -c "awslocal sns subscribe --topic-arn arn:aws:sns:us-east-1:000000000000:notifications --protocol http --notification-endpoint http://172.28.3.10:8083"
 
 up-localstack:
 	docker-compose up -d localstack
 
 up-client-web:
 	docker build -t client-web-app -f client-web/Dockerfile .
-	docker run -d --name client-web-app --net=network-notificator --ip=172.20.0.10 -p 8083:8083 client-web-app 
+	docker run -d --name client-web-app --net=network-notificator --ip=172.28.3.10 -p 8083:8083 client-web-app 
 
 dependencies:
 	go mod download
@@ -30,7 +30,7 @@ up-mongo:
 
 up-app-api:
 	docker build -t ms-notificator .
-	docker run -d --env APP_COMMAND=api --name notificator-api --net=network-notificator --ip=172.20.0.8 -p 8081:8081 ms-notificator
+	docker run -d --env APP_COMMAND=api --name notificator-api --net=network-notificator --ip=172.28.3.8 -p 8081:8081 ms-notificator
 
 	docker run -d --env APP_COMMAND=worker --name notificator-worker --net=network-notificator ms-notificator
 

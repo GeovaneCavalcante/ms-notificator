@@ -13,8 +13,8 @@ def handle_notification():
 
     if message['Type'] == 'SubscriptionConfirmation':
         print('Received notification: ' + message['Message'])
-        print(message['SubscribeURL'].replace("localhost", "172.20.0.5"))
-        requests.get(message['SubscribeURL'].replace("localhost", "172.20.0.5"))
+        print(message['SubscribeURL'].replace("localhost", "172.28.3.5"))
+        requests.get(message['SubscribeURL'].replace("localhost", "172.28.3.5"))
     
     elif message['Type'] == 'Notification':
         print('Received notification: ' + message['Message'])
