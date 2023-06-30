@@ -9,9 +9,12 @@ notifications = []
 @app.route('/', methods=['POST'])
 def handle_notification():
     message = json.loads(request.data)
+    print(message)
 
     if message['Type'] == 'SubscriptionConfirmation':
-        requests.get(message['SubscribeURL'])
+        print('Received notification: ' + message['Message'])
+        print(message['SubscribeURL'].replace("localhost", "172.20.0.5"))
+        requests.get(message['SubscribeURL'].replace("localhost", "172.20.0.5"))
     
     elif message['Type'] == 'Notification':
         print('Received notification: ' + message['Message'])

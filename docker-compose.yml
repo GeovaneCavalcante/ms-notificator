@@ -15,6 +15,9 @@ services:
     volumes:
       - "${LOCALSTACK_VOLUME_DIR:-./volume}:/var/lib/localstack"
       - "/var/run/docker.sock:/var/run/docker.sock"
+    networks:
+      network-notificator:
+        ipv4_address: 172.20.0.5
 
   mongodb:
     image: mongo:latest
@@ -24,9 +27,23 @@ services:
     volumes:
       - mongodb_notificator_data:/data/db
     ports:
-      - 27053:27017
+      - "0.0.0.0:27053:27017"
+    networks:
+      network-notificator:
+        ipv4_address: 172.20.0.3
 
 
 volumes:
   mongodb_notificator_data:
     external: false
+
+networks:
+  network-notificator:
+    name: network-notificator
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16 
+
+
+        
