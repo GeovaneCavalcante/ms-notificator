@@ -2,7 +2,6 @@ package api
 
 import (
 	"context"
-	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -33,9 +32,9 @@ func Start(port string, handler http.Handler, options ...ServerOption) error {
 	signal.Notify(sigChannel, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT)
 
 	go func() {
-		log.Println(fmt.Sprintf("Service listening on port %s", port))
+		log.Printf("Service listening on port %s", port)
 		if err := srv.ListenAndServe(); err != http.ErrServerClosed {
-			log.Println("HTTP server error: %v", err)
+			log.Printf("HTTP server error: %v", err)
 			serverErr = err
 			sigChannel <- syscall.SIGINT
 		}

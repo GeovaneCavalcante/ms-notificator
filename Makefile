@@ -39,3 +39,12 @@ down-all:
 	docker stop notificator-api && docker rm notificator-api || true
 	docker stop client-web-app && docker rm client-web-app || true
 	docker-compose down || true
+
+format:
+	go fmt ./...
+	
+test:
+	go test -v -tags testing ./...
+
+test-cov:
+	go test -coverprofile=cover.txt ./... && go tool cover -html=cover.txt -o cover.html
