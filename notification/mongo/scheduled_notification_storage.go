@@ -34,10 +34,6 @@ func fromScheduledNotification(n notification.ScheduledNotification) dto.Schedul
 		DateScheduling: n.DateScheduling,
 		Status:         notification.Pending,
 	}
-	objId, err := primitive.ObjectIDFromHex(n.ID)
-	if err == nil {
-		nDTO.ID = objId
-	}
 	return nDTO
 }
 

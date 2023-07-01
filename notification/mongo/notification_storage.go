@@ -31,10 +31,7 @@ func fromNotification(n notification.Notification) dto.NotificationDTO {
 		RawMessage: n.RawMessage,
 		UserID:     n.UserID,
 	}
-	objId, err := primitive.ObjectIDFromHex(n.ID)
-	if err == nil {
-		nDTO.ID = objId
-	}
+
 	return nDTO
 }
 
