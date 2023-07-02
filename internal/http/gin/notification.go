@@ -15,17 +15,18 @@ type NotificationData struct {
 	UserID         string `json:"userId"`
 }
 
-func ListNotification(s notification.UseCase) gin.HandlerFunc {
+func SendNotification(s notification.UseCase) gin.HandlerFunc {
 	return func(c *gin.Context) {
 
 		var notificationData NotificationData
 
 		if err := c.BindJSON(&notificationData); err != nil {
+
 			log.Printf("[Handler Notification] Error during notification request deserialization: %v", err)
 			c.String(http.StatusBadRequest, fmt.Sprintf("Notification request desserialization error: %v", err))
 			return
 		}
-
+		fmt.Println("aaa")
 		log.Printf("[Handler Notification] Event Notification payload: %v", notificationData)
 
 		n := notification.Notification{
@@ -49,5 +50,5 @@ func ListNotification(s notification.UseCase) gin.HandlerFunc {
 }
 
 func MakeNotificationHandler(r *gin.RouterGroup, s notification.UseCase) {
-	r.Handle("POST", "/notifications", ListNotification(s))
+	r.Handle("POST", "/notifications", SendNotification(s))
 }
