@@ -49,10 +49,15 @@ test:
 test-cov:
 	go test -v -coverprofile=cover.txt ./... && go tool cover -html=cover.txt -o cover.html
 
-
 build-mocks:
 	go get github.com/golang/mock/mockgen@v1.6.0
 	go install github.com/golang/mock/mockgen
 	~/go/bin/mockgen -source=preference/preference.go -destination=preference/mock/preference_mock.go -package=mock
 	~/go/bin/mockgen -source=notification/notification.go -destination=notification/mock/notification_mock.go -package=mock
 	~/go/bin/mockgen -source=internal/messenger/messenger.go -destination=internal/messenger/mock/messenger.go -package=mock
+
+swagger:
+	go install github.com/swaggo/swag/cmd/swag@latest
+	~/go/bin/swag init -g ./cmd/main.go api --output ./docs
+
+	

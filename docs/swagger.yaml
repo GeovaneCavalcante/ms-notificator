@@ -1,0 +1,116 @@
+swagger: '2.0'
+info:
+  description: Endpoints disponíveis no microsserviço.
+  title: MS Notificator
+  contact:
+    name: Notificator
+  version: '1.0'
+  '/notifications':
+    post:
+      produces:
+        - application/json
+      tags:
+        - notification
+      summary: sending or scheduling notification
+      operationId: notification-manager
+      parameters:
+        - description: data for shipping or scheduling
+          name: data
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/handler.NotificationData'
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: error handling with body: {error_message}
+        '500':
+          description: could not send notification: {error_message}
+definitions:
+  handler.NotificationData:
+    type: object
+    properties:
+      rawMessage:
+        type: string
+        description: The raw message
+      dateScheduling:
+        type: string
+        description: The scheduling date of the notification
+      userId:
+        type: string
+        description: The user id who will receive the notification
+    required:
+      - rawMessage
+      - userId
+  notification.Status:
+    type: string
+    enum:
+      - delivered
+      - pending
+      - error
+    description: The status of the scheduled notification
+  notification.Notification:
+    type: object
+    properties:
+      id:
+        type: string
+        description: The ID of the notification
+      rawMessage:
+        type: string
+        description: The raw message
+      userId:
+        type: string
+        description: The user id who will receive the notification
+    required:
+      - id
+      - rawMessage
+      - userId
+  notification.ScheduledNotification:
+    type: object
+    properties:
+      id:
+        type: string
+        description: The ID of the scheduled notification
+      notification:
+        $ref: '#/definitions/notification.Notification'
+        description: The related notification
+      dateScheduling:
+        type: string
+        format: date-time
+        description: The scheduling date of the notification
+      status:
+        $ref: '#/definitions/Status'
+        description: The status of the scheduled notification
+    required:
+      - id
+      - notification
+      - dateScheduling
+      - status
+  preference.PreferenceNotification:
+    type: object
+    properties:
+      id:
+        type: string
+        description: The ID of the preference notification
+      userId:
+        type: string
+        description: The user id who has this preference
+      rateLimit:
+        type: integer
+        format: int32
+        description: The rate limit for notifications
+      channels:
+        type: array
+        items:
+          type: string
+        description: The channels for notifications
+      allow:
+        type: boolean
+        description: Allow notifications
+    required:
+      - id
+      - userId
+      - rateLimit
+      - channels
+      - allow
