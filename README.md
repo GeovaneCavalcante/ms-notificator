@@ -79,7 +79,7 @@ $ git clone https://github.com/GeovaneCavalcante/ms-notificator
 ```cmd
 $ make setup-dev
 ```
-3. Destruir todo ambiente 
+3. **Atenção** - Destroi todo ambiente caso já testado 
 ```cmd
 $ make down-all
 ```
