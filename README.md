@@ -85,6 +85,7 @@ $ make down-all
 ```
 
 ### Utilizando a aplicação
+Usuário com id *123* aceita notificações nas suas preferências, o usuário *456* tem as notificações desabilitadas.
 
 1. Envio de notificação instantânea
 ```cmd
