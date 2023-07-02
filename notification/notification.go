@@ -38,5 +38,5 @@ type ScheduledNotificationRepository interface {
 type UseCase interface {
 	SendNoticiation(ctx context.Context, notification Notification) error
 	ManageNotification(ctx context.Context, notification Notification, dateScheduling string) error
-	CreateScheduledNotification(notification Notification, dateScheduling string) (*ScheduledNotification, error)
+	CreateScheduledNotification(n Notification, dateScheduling string) (*ScheduledNotification, error)
 }
