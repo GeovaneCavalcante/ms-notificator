@@ -113,7 +113,15 @@ curl --location 'http://localhost:8081/api/v1/notifications' \
 curl --location 'http://localhost:8083/notifications' \
 --header 'accept: application/json'
 ```
-### Docs Swagger
+#### Docs Swagger
 Documentações das APIs **notificator-api** e **client-web**:
 - [**notificator-api**](http://localhost:8081/swagger/index.html#/)
 - [**client-web**](http://localhost:8083/apidocs/#/default/get_notifications)
+
+### Testes
+1. Executar testes unitários (Poderá ser visualizado as coberturas no arquivo *cover.html* na raiz do projeto)
+```cmd
+$ make test-cov
+```
+
+Para mais opções de comandos consulte o arquivo *Makefile* na raiz do projeto.
