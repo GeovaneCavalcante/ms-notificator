@@ -345,8 +345,9 @@ func TestCreateScheduledNotification(t *testing.T) {
 
 		s := notification.NewService(ctx, messager, nRepo, nil, preferenceService)
 
-		_, err := s.CreateScheduledNotification(expectedNotification, "a")
+		data, err := s.CreateScheduledNotification(expectedNotification, "a")
 
+		assert.Nil(t, data)
 		assert.NotNil(t, err)
 		assert.EqualError(t, expectedError, err.Error())
 	})

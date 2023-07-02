@@ -47,7 +47,7 @@ test:
 	go test -v -tags testing ./...
 
 test-cov:
-	go test -coverprofile=cover.txt ./... && go tool cover -html=cover.txt -o cover.html
+	go test -v -coverprofile=cover.txt ./... && go tool cover -html=cover.txt -o cover.html
 
 
 build-mocks:
