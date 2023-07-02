@@ -21,7 +21,7 @@ Os componentes desenvolvidos e escolhidos foram baseados nos requisitos solitici
 - **notificator-worker**: Este componente assume a responsabilidade de consultar e encaminhar as notificações agendadas. Primeiramente, realiza uma consulta para verificar o status e a data dos agendamentos. Posteriormente, faz um processamento concorrente para o envio de todas as notificações disponíveis, garantindo uma execução eficiente e otimizada.
 - **topic-SNS**: Escalabilidade: O SNS é altamente escalável, sendo capaz de lidar com um grande volume de mensagens e enviar para uma grande quantidade de destinatários. Oferece alta disponibilidade e durabilidade, garantindo que as mensagens de notificação sejam entregues de forma confiável, além de suportar a publicação de mensagens a partir de diversas fontes e para uma variedade de endpoints, incluindo Amazon SQS, HTTP/S web services, e-mails, e AWS Lambda, entre outros.
 
-- **web-api**: É o serviço inscrito no tópico do SNS que recebe as noticiações.
+- **web-api**: É o serviço inscrito no tópico do SNS que recebe as notificações.
 
 
 ### Casos de uso
